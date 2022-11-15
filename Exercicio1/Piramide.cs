@@ -14,14 +14,14 @@
 
         public void Desenha()
         {
-            for (int linha = 1, digito; linha <= N; linha++)
+            for (int linha = 1; linha <= N; linha++)
             {
                 for (int espaco = 1; espaco <= N - linha; espaco++)
                 {
                     Console.Write(" ");
                 }
 
-                digito = 1;
+                int digito = 1;
 
                 while (digito <= linha)
                 {
