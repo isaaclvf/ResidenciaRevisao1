@@ -24,6 +24,10 @@
 
         public void Desenha()
         {
+            /*
+            * O algoritmo foi inspirado em um desse link:
+            * https://www.programiz.com/c-programming/examples/pyramid-pattern
+            */
             for (int linha = 1; linha <= n; linha++)
             {
                 for (int espaco = 1; espaco <= n - linha; espaco++)
