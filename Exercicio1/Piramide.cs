@@ -2,15 +2,17 @@
 {
     public class Piramide
     {
-        readonly int N;
+        readonly int n;
         public Piramide(int n)
         {
             if (n < 1)
             {
                 throw new Exception("n >= 1");
             }
-            N = n;
+            this.n = n;
         }
+
+        public int N { get { return n; } }
 
         public void Desenha()
         {
