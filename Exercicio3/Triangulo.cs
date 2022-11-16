@@ -10,6 +10,18 @@ namespace Exercicio3
         double segmentoAC;
         double segmentoBC;
 
+        public Vertice A { get; private set; }
+
+        public Vertice B { get; private set; }
+
+        public Vertice C { get; private set; }
+
+        public TipoTriangulo Tipo { get; private set; }
+
+        public double Area { get; private set; }
+
+        public double Perimetro { get { return segmentoAB + segmentoAC + segmentoBC; } }
+
         public Triangulo(Vertice a, Vertice b, Vertice c)
         {
             bool trianguloValido = ValidarTriangulo(a, b, c);
@@ -27,19 +39,6 @@ namespace Exercicio3
             DefinirTipo();
             CalcularArea();
         }
-
-        public Vertice A { get; private set; }
-
-        public Vertice B { get; private set; }
-
-        public Vertice C { get; private set; }
-
-        public double Perimetro { get { return segmentoAB + segmentoAC + segmentoBC; } }
-
-        // "private set" porque os valores são atribuídos pelos métodos DefinirTipo e CalcularArea
-        public TipoTriangulo Tipo { get; private set; }
-
-        public double Area { get; private set; }
 
         private bool ValidarTriangulo(Vertice a, Vertice b, Vertice c)
         {
@@ -101,6 +100,5 @@ namespace Exercicio3
                 && Vertice.Iguais(trianguloUm.B, trianguloDois.B)
                 && Vertice.Iguais(trianguloUm.C, trianguloDois.C));
         }
-
     }
 }

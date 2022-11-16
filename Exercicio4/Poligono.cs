@@ -6,6 +6,11 @@ namespace Exercicio4
     {
         List<Vertice> listaVertices = new List<Vertice>();
 
+        public int QuantidadeVertices
+        {
+            get { return listaVertices.Count; }
+        }
+
         public Poligono(params Vertice[] vertices)
         {
             if (vertices.Length < 3)
@@ -65,11 +70,6 @@ namespace Exercicio4
                 );
             }
             return perimetro;
-        }
-
-        public int QuantidadeVertices
-        {
-            get { return listaVertices.Count; }
         }
     }
 }
