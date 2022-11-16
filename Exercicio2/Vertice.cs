@@ -18,15 +18,24 @@
             Y = y;
         }
 
-        public static double Distancia(Vertice a, Vertice b)
+        public double Distancia(Vertice ver)
         {
             double Square(double x) => x * x;
-            return Math.Sqrt(Square(b.X - a.X) + Square(b.Y - a.Y));
+
+            return Math.Sqrt(Square(ver.X - this.X) + Square(ver.Y - this.Y));
         }
 
-        public static bool Iguais(Vertice a, Vertice b)
+        public override bool Equals(object? obj)
         {
-            return ((a.X == b.X) && (a.Y == b.Y));
+            return obj is Vertice vertice &&
+                this.X == vertice.X &&
+                this.Y == vertice.Y;
+        }
+
+        // O VS recomendou colocar isso, pesquisar sobre
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
         }
     }
 }
