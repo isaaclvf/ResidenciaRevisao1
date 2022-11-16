@@ -2,22 +2,31 @@
 {
     public class Piramide
     {
+        private int n;
+
+        public int N
+        {
+            get { return n; }
+            set
+            {
+                if (value < 1)
+                {
+                    throw new Exception("O valor da pirâmide precisa ser maior ou igual a 1");
+                }
+                n = value;
+            }
+        }
+
         public Piramide(int n)
         {
-            if (n < 1)
-            {
-                throw new Exception("n >= 1");
-            }
             N = n;
         }
 
-        public int N { get; private set; } }
-
         public void Desenha()
         {
-            for (int linha = 1; linha <= N; linha++)
+            for (int linha = 1; linha <= n; linha++)
             {
-                for (int espaco = 1; espaco <= N - linha; espaco++)
+                for (int espaco = 1; espaco <= n - linha; espaco++)
                 {
                     Console.Write(" ");
                 }
