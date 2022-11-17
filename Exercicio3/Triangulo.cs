@@ -2,13 +2,13 @@
 
 namespace Exercicio3
 {
-    public enum TipoTriangulo { Equilatero, Isosceles, Escaleno }
+    public enum TipoTriangulo { EQUILATERO, ISOSCELES, ESCALENO }
 
     public class Triangulo
     {
-        double segmentoAB;
-        double segmentoAC;
-        double segmentoBC;
+        readonly double segmentoAB;
+        readonly double segmentoAC;
+        readonly double segmentoBC;
 
         public Vertice A { get; private set; }
 
@@ -24,9 +24,14 @@ namespace Exercicio3
 
         public Triangulo(Vertice a, Vertice b, Vertice c)
         {
-            bool trianguloValido = ValidarTriangulo(a, b, c);
+            double segmentoAB = a.Distancia(b);
+            double segmentoAC = a.Distancia(c);
+            double segmentoBC = b.Distancia(c);
 
-            if (!trianguloValido)
+            // Validar se o triângulo é possível
+            if (!(segmentoAB + segmentoAC > segmentoBC) ||
+                !(segmentoAB + segmentoBC > segmentoAC) ||
+                !(segmentoAC + segmentoBC > segmentoAB))
             {
                 throw new Exception("Os vértices não formam um triângulo");
             }
@@ -35,70 +40,63 @@ namespace Exercicio3
             B = b;
             C = c;
 
-            CalcularSegmentos();
-            DefinirTipo();
-            CalcularArea();
-        }
-
-        private bool ValidarTriangulo(Vertice a, Vertice b, Vertice c)
-        {
-            // Calcula os três segmentos de retas formados pelos vértices.
-            // Se a soma das medidas de dois deles for sempre maior que a medida do terceiro,
-            // então eles podem formar um triângulo
-
-            double segmentoAB = Vertice.Distancia(a, b);
-            double segmentoAC = Vertice.Distancia(a, c);
-            double segmentoBC = Vertice.Distancia(b, c);
-
-            if (!(segmentoAB + segmentoAC > segmentoBC)) return false;
-            if (!(segmentoAB + segmentoBC > segmentoAC)) return false;
-            if (!(segmentoAC + segmentoBC > segmentoAB)) return false;
-
-            return true;
-        }
-
-        private void CalcularSegmentos()
-        {
-            // Usados para calcular Perimetro, Tipo e Area
-            segmentoAB = Vertice.Distancia(A, B);
-            segmentoAC = Vertice.Distancia(A, C);
-            segmentoBC = Vertice.Distancia(B, C);
-        }
-
-        private void DefinirTipo()
-        {
+            // Definir tipo
             if (segmentoAB == segmentoAC && segmentoAB == segmentoBC)
             {
-                Tipo = TipoTriangulo.Equilatero;
+                Tipo = TipoTriangulo.EQUILATERO;
             }
-            else if (segmentoAB == segmentoAC
-                || segmentoAB == segmentoBC
-                || segmentoAC == segmentoBC)
+            else if (segmentoAB == segmentoAC ||
+                     segmentoAB == segmentoBC ||
+                     segmentoAC == segmentoBC)
             {
-                Tipo = TipoTriangulo.Isosceles;
+                Tipo = TipoTriangulo.ISOSCELES;
             }
             else
             {
-                Tipo = TipoTriangulo.Escaleno;
+                Tipo = TipoTriangulo.ESCALENO;
             }
-        }
 
-        private void CalcularArea()
-        {
+            // Calcular área
             double S = Perimetro / 2;
-            double a = segmentoAB;
-            double b = segmentoAC;
-            double c = segmentoBC;
 
-            Area = Math.Sqrt(S * (S - a) * (S - b) * (S - c));
+            Area = Math.Sqrt(S * (S - segmentoAB) * (S - segmentoAC) * (S - segmentoBC));
         }
 
-        public static bool Iguais(Triangulo trianguloUm, Triangulo trianguloDois)
+        public override bool Equals(object? obj)
         {
-            // Os triângulos são iguais se os vértices forem iguais
-            return (Vertice.Iguais(trianguloUm.A, trianguloDois.A)
-                && Vertice.Iguais(trianguloUm.B, trianguloDois.B)
-                && Vertice.Iguais(trianguloUm.C, trianguloDois.C));
+            // Casos onde dois triângulos podem ser iguais,
+            // existe um jeito mais fácil de fazer isso?
+            return obj is Triangulo triangulo &&
+                (
+                    (A.Equals(triangulo.A) &&
+                    B.Equals(triangulo.B) &&
+                    C.Equals(triangulo.C)) ||
+
+                    (A.Equals(triangulo.A) &&
+                    B.Equals(triangulo.C) &&
+                    C.Equals(triangulo.B)) ||
+
+                    (A.Equals(triangulo.B) &&
+                    B.Equals(triangulo.A) &&
+                    C.Equals(triangulo.C)) ||
+
+                    (A.Equals(triangulo.B) &&
+                    B.Equals(triangulo.C) &&
+                    C.Equals(triangulo.A)) ||
+
+                    (A.Equals(triangulo.C) &&
+                    B.Equals(triangulo.A) &&
+                    C.Equals(triangulo.B)) ||
+
+                    (A.Equals(triangulo.C) &&
+                    B.Equals(triangulo.B) &&
+                    C.Equals(triangulo.A))
+                );
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
         }
     }
 }
